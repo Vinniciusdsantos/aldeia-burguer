@@ -2,40 +2,23 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aldeia Burguer</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aldeia Burguer</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
 </head>
 <body>
-    <header>
-        <h1>🍔 Aldeia Burguer</h1>
-    </header>
-    <main>
-        <section id="cardapio">
-            <h2>Cardápio</h2>
-            <div class="item" data-nome="Tradicional" data-preco="12">Tradicional - R$12</div>
-            <div class="item" data-nome="Duplo Cheddar" data-preco="16">Duplo Cheddar - R$16</div>
-            <div class="item" data-nome="Bacon Especial" data-preco="18">Bacon Especial - R$18</div>
-            <div class="item" data-nome="Combo Família" data-preco="20">Combo Família (2 hambúrgueres + fritas + Guaravita) - R$20</div>
-        </section>
-
-        <section id="carrinho">
-            <h2>Carrinho</h2>
-            <ul id="lista-carrinho"></ul>
-            <p>Total: R$ <span id="total">0</span></p>
-            <button onclick="enviarPedido()">Enviar pedido via WhatsApp</button>
-        </section>
-
-        <section id="fidelidade">
-            <h2>Cartão Fidelidade</h2>
-            <p id="fidelidade-contador">Pedidos feitos: 0 / 5</p>
-            <p id="fidelidade-bonus"></p>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Aldeia Burguer</p>
-    </footer>
-    <script src="script.js"></script>
+  <div class="app">
+    <h1 id="welcome"></h1>
+    <input id="nameInput" placeholder="Digite seu nome ou apelido" />
+    <button onclick="saveName()">Salvar</button>
+    <h2>Cartão Fidelidade</h2>
+    <progress id="fidelidade" value="3" max="6"></progress>
+    <p>Você tem <span id="progress-text">3</span>/6 pedidos acumulados!</p>
+    <button onclick="playSound(); enviarPedido()">Fazer Pedido</button>
+    <audio id="clickSound" src="click.mp3" preload="auto"></audio>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>

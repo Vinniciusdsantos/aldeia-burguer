@@ -1,50 +1,36 @@
 
-let carrinho = [];
-let total = 0;
-let pedidos = parseInt(localStorage.getItem('pedidos') || '0');
+function saveName() {
+  const name = document.getElementById("nameInput").value;
+  localStorage.setItem("clienteNome", name);
+  document.getElementById("welcome").innerText = "Olá, " + name + "!";
+}
 
-document.querySelectorAll('.item').forEach(item => {
-    item.addEventListener('click', () => {
-        const nome = item.getAttribute('data-nome');
-        const preco = parseFloat(item.getAttribute('data-preco'));
-        carrinho.push({ nome, preco });
-        total += preco;
-        atualizarCarrinho();
-    });
-});
-
-function atualizarCarrinho() {
-    const lista = document.getElementById('lista-carrinho');
-    lista.innerHTML = '';
-    carrinho.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = `${item.nome} - R$${item.preco}`;
-        lista.appendChild(li);
-    });
-    document.getElementById('total').textContent = total.toFixed(2);
+function playSound() {
+  document.getElementById("clickSound").play();
 }
 
 function enviarPedido() {
-    pedidos++;
-    localStorage.setItem('pedidos', pedidos);
-    atualizarFidelidade();
-
-    let texto = 'Pedido Aldeia Burguer:%0A';
-    carrinho.forEach(item => {
-        texto += `- ${item.nome} (R$${item.preco})%0A`;
-    });
-    texto += `%0ATotal: R$${total.toFixed(2)}`;
-    const numero = '21999999999'; // <-- Altere aqui com seu número real
-    window.open(`https://wa.me/55${numero}?text=${texto}`, '_blank');
+  const pedidos = parseInt(localStorage.getItem("pedidos") || "0") + 1;
+  localStorage.setItem("pedidos", pedidos);
+  updateFidelidade();
+  const msg = encodeURIComponent("Olá, quero fazer um pedido na Aldeia Burguer!");
+  const url = `https://wa.me/5521999999999?text=${msg}`;
+  window.open(url, "_blank");
 }
 
-function atualizarFidelidade() {
-    document.getElementById('fidelidade-contador').textContent = `Pedidos feitos: ${pedidos % 6} / 5`;
-    if (pedidos > 0 && pedidos % 6 === 0) {
-        document.getElementById('fidelidade-bonus').textContent = '🎉 Parabéns! Você ganhou um lanche GRÁTIS!';
-    } else {
-        document.getElementById('fidelidade-bonus').textContent = '';
-    }
+function updateFidelidade() {
+  const pedidos = parseInt(localStorage.getItem("pedidos") || "0");
+  const progress = document.getElementById("fidelidade");
+  const text = document.getElementById("progress-text");
+  progress.value = pedidos % 6;
+  text.innerText = pedidos % 6;
 }
 
-atualizarFidelidade();
+window.onload = function () {
+  const nome = localStorage.getItem("clienteNome");
+  if (nome) {
+    document.getElementById("welcome").innerText = "Olá, " + nome + "!";
+    document.getElementById("nameInput").value = nome;
+  }
+  updateFidelidade();
+};
