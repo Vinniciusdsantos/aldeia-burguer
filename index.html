@@ -6,19 +6,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aldeia Burguer</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="favicon.png" />
 </head>
 <body>
-  <div class="app">
-    <h1 id="welcome"></h1>
-    <input id="nameInput" placeholder="Digite seu nome ou apelido" />
-    <button onclick="saveName()">Salvar</button>
+  <header>
+    <h1 class="logo">🍔 Aldeia Burguer</h1>
+    <nav>
+      <a href="#cardapio">Cardápio</a>
+      <a href="#fidelidade">Fidelidade</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Promoção Especial!</h2>
+    <p>Na compra de 5 lanches, o 6º é por nossa conta! 🎉</p>
+    <a href="#cardapio" class="btn-destaque">Ver Cardápio</a>
+  </section>
+
+  <section id="cardapio" class="cardapio">
+    <h2>🍟 Combos Deliciosos</h2>
+    <div class="combo">
+      <h3>Combo Clássico - R$12</h3>
+      <p>Hambúrguer simples + Batata + Guaravita</p>
+    </div>
+    <div class="combo">
+      <h3>Combo Duplo - R$16</h3>
+      <p>Hambúrguer duplo + Batata + Guaravita</p>
+    </div>
+    <div class="combo">
+      <h3>Combo Família - R$20</h3>
+      <p>2 Hambúrgueres + Batata grande + 2L Refrigerante</p>
+    </div>
+  </section>
+
+  <section id="fidelidade" class="fidelidade">
     <h2>Cartão Fidelidade</h2>
-    <progress id="fidelidade" value="3" max="6"></progress>
-    <p>Você tem <span id="progress-text">3</span>/6 pedidos acumulados!</p>
-    <button onclick="playSound(); enviarPedido()">Fazer Pedido</button>
-    <audio id="clickSound" src="click.mp3" preload="auto"></audio>
-  </div>
-  <script src="script.js"></script>
+    <p>Complete 5 pedidos e ganhe o 6º grátis!</p>
+    <progress value="3" max="6"></progress>
+  </section>
+
+  <section id="contato" class="contato">
+    <h2>Fale Conosco</h2>
+    <a href="https://wa.me/5521999999999" target="_blank" class="btn-whatsapp">Pedir pelo WhatsApp</a>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Aldeia Burguer. Todos os direitos reservados.</p>
+  </footer>
 </body>
 </html>
