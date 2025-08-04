@@ -2,57 +2,59 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aldeia Burguer</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.png" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background-color: #fff8f0;
+      padding: 50px;
+    }
+    #cardapio { display: none; }
+    .btn-item { margin: 10px; padding: 10px 20px; background-color: #ff4500; color: white; border: none; border-radius: 8px; cursor: pointer; }
+  </style>
 </head>
 <body>
-  <header>
-    <h1 class="logo">🍔 Aldeia Burguer</h1>
-    <nav>
-      <a href="#cardapio">Cardápio</a>
-      <a href="#fidelidade">Fidelidade</a>
-      <a href="#contato">Contato</a>
-    </nav>
-  </header>
-
-  <section class="hero">
-    <h2>Promoção Especial!</h2>
-    <p>Na compra de 5 lanches, o 6º é por nossa conta! 🎉</p>
-    <a href="#cardapio" class="btn-destaque">Ver Cardápio</a>
-  </section>
-
-  <section id="cardapio" class="cardapio">
-    <h2>🍟 Combos Deliciosos</h2>
-    <div class="combo">
-      <h3>Combo Clássico - R$12</h3>
-      <p>Hambúrguer simples + Batata + Guaravita</p>
-    </div>
-    <div class="combo">
-      <h3>Combo Duplo - R$16</h3>
-      <p>Hambúrguer duplo + Batata + Guaravita</p>
-    </div>
-    <div class="combo">
-      <h3>Combo Família - R$20</h3>
-      <p>2 Hambúrgueres + Batata grande + 2L Refrigerante</p>
-    </div>
-  </section>
-
-  <section id="fidelidade" class="fidelidade">
-    <h2>Cartão Fidelidade</h2>
-    <p>Complete 5 pedidos e ganhe o 6º grátis!</p>
-    <progress value="3" max="6"></progress>
-  </section>
-
-  <section id="contato" class="contato">
-    <h2>Fale Conosco</h2>
-    <a href="https://wa.me/5521999999999" target="_blank" class="btn-whatsapp">Pedir pelo WhatsApp</a>
-  </section>
-
-  <footer>
-    <p>&copy; 2025 Aldeia Burguer. Todos os direitos reservados.</p>
-  </footer>
+  <h1>🍔 Bem-vindo ao Aldeia Burguer</h1>
+  <div id="g_id_onload"
+       data-client_id="769476582806-22cl684hussrtbi7kp3tbic2rcpo7eqc.apps.googleusercontent.com"
+       data-callback="handleCredentialResponse">
+  </div>
+  <div class="g_id_signin" data-type="standard"></div>
+  <div id="cardapio">
+    <h2>Olá, <span id="username"></span>! Escolha seu lanche:</h2>
+    <button class="btn-item">🍟 Combo Batata + Guaravita - R$12</button>
+    <button class="btn-item">🍔 Cheese Burguer - R$14</button>
+    <button class="btn-item">🥓 Bacon Burguer - R$16</button>
+    <button class="btn-item">🧀 Duplo Queijo Burguer - R$20</button>
+  </div>
+  <script>
+    function handleCredentialResponse(response) {
+      const data = parseJwt(response.credential);
+      const name = data.given_name || data.name;
+      document.getElementById('username').textContent = name;
+      localStorage.setItem("username", name);
+      document.querySelector(".g_id_signin").style.display = "none";
+      document.getElementById("cardapio").style.display = "block";
+    }
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(c =>
+        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+      return JSON.parse(jsonPayload);
+    }
+    window.onload = () => {
+      const user = localStorage.getItem("username");
+      if (user) {
+        document.getElementById("username").textContent = user;
+        document.querySelector(".g_id_signin").style.display = "none";
+        document.getElementById("cardapio").style.display = "block";
+      }
+    }
+  </script>
 </body>
 </html>
