@@ -14,12 +14,20 @@
     }
     .grátis { color: green; font-weight: bold; }
     .total { font-weight: bold; font-size: 1.2em; margin-top: 20px; text-align: center; }
-    .voltar {
-      text-align: center; margin-top: 30px;
+    .voltar, .filtros {
+      text-align: center; margin-top: 20px;
     }
     .voltar a {
       background: #d32f2f; color: white; padding: 10px 16px;
       border-radius: 20px; text-decoration: none;
+    }
+    input[type="text"] {
+      padding: 6px 10px; border-radius: 6px; border: 1px solid #ccc; width: 200px;
+    }
+    button {
+      background: #d32f2f; color: white; border: none;
+      padding: 8px 16px; border-radius: 20px; margin-left: 10px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -27,31 +35,62 @@
   <header>
     <h1>🔒 Área Administrativa</h1>
   </header>
+
+  <div class="filtros">
+    <input type="text" id="filtro" placeholder="Filtrar por cliente" oninput="filtrarPedidos()" />
+    <button onclick="exportarCSV()">Exportar CSV</button>
+  </div>
+
   <div id="lista"></div>
   <div class="total">Total do dia: R$ <span id="total">0.00</span></div>
   <div class="voltar"><a href="index.html">⬅ Voltar</a></div>
 
   <script>
-    const lista = document.getElementById("lista");
-    const totalSpan = document.getElementById("total");
-    let total = 0;
+    let todosPedidos = JSON.parse(localStorage.getItem("pedidos") || "[]").reverse();
 
-    const pedidos = JSON.parse(localStorage.getItem("pedidos") || "[]");
-    pedidos.reverse().forEach(p => {
-      const div = document.createElement("div");
-      div.className = "pedido";
-      const status = p.valor === 0 ? '<span class="grátis">GRÁTIS (Fidelidade)</span>' : '';
-      div.innerHTML = `
-        <strong>${p.nome}</strong><br>
-        Itens: ${p.itens.join(", ")}<br>
-        Valor: R$${p.valor.toFixed(2)} ${status}<br>
-        Hora: ${p.hora}
-      `;
-      lista.appendChild(div);
-      total += p.valor;
-    });
+    function renderPedidos(listaPedidos) {
+      const lista = document.getElementById("lista");
+      lista.innerHTML = "";
+      let total = 0;
 
-    totalSpan.textContent = total.toFixed(2);
+      listaPedidos.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "pedido";
+        const status = p.valor === 0 ? '<span class="grátis">GRÁTIS (Fidelidade)</span>' : '';
+        div.innerHTML = `
+          <strong>${p.nome}</strong><br>
+          Itens: ${p.itens.join(", ")}<br>
+          Valor: R$${p.valor.toFixed(2)} ${status}<br>
+          Hora: ${p.hora}
+        `;
+        lista.appendChild(div);
+        total += p.valor;
+      });
+
+      document.getElementById("total").textContent = total.toFixed(2);
+    }
+
+    function filtrarPedidos() {
+      const termo = document.getElementById("filtro").value.toLowerCase();
+      const filtrados = todosPedidos.filter(p => p.nome.toLowerCase().includes(termo));
+      renderPedidos(filtrados);
+    }
+
+    function exportarCSV() {
+      const linhas = ["Nome,Itens,Valor,Hora"];
+      todosPedidos.forEach(p => {
+        linhas.push(`"${p.nome}","${p.itens.join(" / ")}",${p.valor},"${p.hora}"`);
+      });
+      const csv = linhas.join("\\n");
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "pedidos.csv";
+      link.click();
+    }
+
+    renderPedidos(todosPedidos);
   </script>
 </body>
 </html>
