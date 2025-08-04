@@ -54,6 +54,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      z-index: 10;
     }
     .floating-buttons button {
       background-color: #d32f2f;
@@ -64,6 +65,32 @@
       font-size: 1em;
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    #carrinho-modal {
+      display: none;
+      position: fixed;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      padding: 20px;
+      max-width: 400px;
+      z-index: 100;
+    }
+    #carrinho-modal h3 {
+      margin-top: 0;
+    }
+    #carrinho-itens {
+      margin-top: 10px;
+      text-align: left;
+    }
+    .fechar-modal {
+      text-align: right;
+      font-size: 0.9em;
+      cursor: pointer;
+      color: #d32f2f;
     }
   </style>
 </head>
@@ -83,28 +110,35 @@
 
     <div class="item">
       <img src="https://images.unsplash.com/photo-1606756791881-b2412ae0b87b?auto=format&fit=crop&w=100&q=80" alt="Combo">
-      <label><input type="checkbox" /> 🍟 Combo Batata + Guaravita – R$12</label>
+      <label><input type="checkbox" value="Combo Batata + Guaravita|12" onchange="atualizarCarrinho()"> 🍟 Combo Batata + Guaravita – R$12</label>
     </div>
 
     <div class="item">
       <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=100&q=80" alt="Cheeseburguer">
-      <label><input type="checkbox" /> 🍔 Cheese Burguer – R$14</label>
+      <label><input type="checkbox" value="Cheese Burguer|14" onchange="atualizarCarrinho()"> 🍔 Cheese Burguer – R$14</label>
     </div>
 
     <div class="item">
       <img src="https://images.unsplash.com/photo-1595292935949-e2b3b16eede1?auto=format&fit=crop&w=100&q=80" alt="Bacon">
-      <label><input type="checkbox" /> 🥓 Bacon Burguer – R$16</label>
+      <label><input type="checkbox" value="Bacon Burguer|16" onchange="atualizarCarrinho()"> 🥓 Bacon Burguer – R$16</label>
     </div>
 
     <div class="item">
       <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=100&q=80" alt="Duplo queijo">
-      <label><input type="checkbox" /> 🧀 Duplo Queijo Burguer – R$20</label>
+      <label><input type="checkbox" value="Duplo Queijo Burguer|20" onchange="atualizarCarrinho()"> 🧀 Duplo Queijo Burguer – R$20</label>
     </div>
   </div>
 
   <div class="floating-buttons" style="display:none;" id="buttons">
-    <button onclick="alert('Ver Carrinho')">🛒 Ver Carrinho</button>
-    <button onclick="alert('Pedido Finalizado!')">✅ Finalizar Pedido</button>
+    <button onclick="abrirCarrinho()">🛒 Ver Carrinho</button>
+    <button onclick="finalizarPedido()">✅ Finalizar Pedido</button>
+  </div>
+
+  <div id="carrinho-modal">
+    <div class="fechar-modal" onclick="document.getElementById('carrinho-modal').style.display='none'">✖ Fechar</div>
+    <h3>Seu Carrinho:</h3>
+    <div id="carrinho-itens"></div>
+    <p><strong>Total:</strong> R$ <span id="total">0</span></p>
   </div>
 
   <script>
@@ -132,6 +166,32 @@
         document.getElementById("cardapio").style.display = "block";
         document.getElementById("buttons").style.display = "flex";
       }
+    }
+
+    function atualizarCarrinho() {
+      const itens = document.querySelectorAll('input[type="checkbox"]:checked');
+      const lista = document.getElementById("carrinho-itens");
+      const totalSpan = document.getElementById("total");
+      lista.innerHTML = "";
+      let total = 0;
+      itens.forEach(i => {
+        const [nome, preco] = i.value.split("|");
+        total += parseFloat(preco);
+        lista.innerHTML += `<div>• ${nome} – R$${preco}</div>`;
+      });
+      totalSpan.textContent = total.toFixed(2);
+    }
+
+    function abrirCarrinho() {
+      atualizarCarrinho();
+      document.getElementById("carrinho-modal").style.display = "block";
+    }
+
+    function finalizarPedido() {
+      alert("Pedido finalizado com sucesso!");
+      document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+      atualizarCarrinho();
+      document.getElementById("carrinho-modal").style.display = "none";
     }
   </script>
 </body>
