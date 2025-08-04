@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produtos - Admin</title>
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <h1>🍔 Gerenciar Produtos</h1>
+    <button onclick="logout()">Sair</button>
+  </header>
+
+  <main>
+    <form id="addProductForm">
+      <input type="text" placeholder="Nome do Produto" required>
+      <input type="number" placeholder="Preço (R$)" required>
+      <button type="submit">Adicionar</button>
+    </form>
+
+    <h2>Cardápio Atual</h2>
+    <ul id="productList">
+      <li>X-Burguer - R$15</li>
+      <li>Combo Guaraná - R$20</li>
+    </ul>
+  </main>
+
+  <script>
+    if(!localStorage.getItem("admin")){
+      window.location.href = "login.html";
+    }
+    function logout(){
+      localStorage.removeItem("admin");
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>

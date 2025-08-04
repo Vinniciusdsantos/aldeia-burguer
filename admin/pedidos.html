@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedidos - Admin</title>
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <h1>📦 Gerenciar Pedidos</h1>
+    <button onclick="logout()">Sair</button>
+  </header>
+
+  <main>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Cliente</th>
+          <th>Itens</th>
+          <th>Status</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody id="ordersTable">
+        <tr>
+          <td>#001</td>
+          <td>João Silva</td>
+          <td>X-Burguer, Guaravita</td>
+          <td><span class="status">Em preparo</span></td>
+          <td>
+            <select>
+              <option>Recebido</option>
+              <option selected>Em preparo</option>
+              <option>Saiu para entrega</option>
+              <option>Concluído</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+
+  <script>
+    if(!localStorage.getItem("admin")){
+      window.location.href = "login.html";
+    }
+    function logout(){
+      localStorage.removeItem("admin");
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>
