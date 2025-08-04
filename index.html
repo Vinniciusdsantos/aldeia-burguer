@@ -1,95 +1,27 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Aldeia Burguer</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/a2e0e6a58c.js" crossorigin="anonymous"></script>
-  <style>
-    .carousel {
-      display: flex;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
-    .carousel-item {
-      flex: 0 0 100%;
-      max-width: 100%;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="app.js"></script>
 </head>
-<body class="bg-gray-50 font-sans">
-
-  <!-- Topo -->
-  <header class="bg-red-600 text-white p-4 sticky top-0 z-50 shadow-md">
-    <div class="flex justify-between items-center">
-      <h1 class="text-2xl font-bold">🍔 Aldeia Burguer</h1>
-      <button class="text-white"><i class="fas fa-user-circle text-2xl"></i></button>
-    </div>
-    <div class="mt-3">
-      <input type="text" placeholder="Buscar no cardápio..." class="w-full p-2 rounded-lg text-black">
-    </div>
+<body>
+  <header>
+    <h1>Aldeia Burguer 🍔</h1>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="cardapio.html">Cardápio</a>
+      <a href="login.html">Login</a>
+    </nav>
   </header>
-
-  <!-- Carrossel de Promoções -->
-  <section class="p-4">
-    <h2 class="text-xl font-bold mb-3 text-red-600">🔥 Promoções da Semana</h2>
-    <div id="carousel" class="carousel rounded-xl shadow overflow-hidden">
-      <div class="carousel-item bg-white">
-        <img src="https://images.unsplash.com/photo-1606755962773-0c8b23d8d85e?auto=format&fit=crop&w=1200&q=80" class="w-full h-56 object-cover">
-        <div class="p-4">
-          <h3 class="text-lg font-bold">Combo Família</h3>
-          <p class="text-gray-600 text-sm">2 X-Bacon + 2 Batatas + 2 Refrigerantes</p>
-          <p class="text-red-600 font-bold">R$ 49,90</p>
-        </div>
-      </div>
-
-      <div class="carousel-item bg-white">
-        <img src="https://images.unsplash.com/photo-1594007654729-407eedc4be5b?auto=format&fit=crop&w=1200&q=80" class="w-full h-56 object-cover">
-        <div class="p-4">
-          <h3 class="text-lg font-bold">Combo do Dia</h3>
-          <p class="text-gray-600 text-sm">X-Salada + Batata Média + Refrigerante</p>
-          <p class="text-red-600 font-bold">R$ 24,90</p>
-        </div>
-      </div>
-
-      <div class="carousel-item bg-white">
-        <img src="https://images.unsplash.com/photo-1565958011703-44e211f9e8da?auto=format&fit=crop&w=1200&q=80" class="w-full h-56 object-cover">
-        <div class="p-4">
-          <h3 class="text-lg font-bold">Sobremesa Grátis</h3>
-          <p class="text-gray-600 text-sm">Na compra de 2 lanches, ganhe 1 milkshake</p>
-          <p class="text-green-600 font-bold">Promoção Especial</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Categorias -->
-  <section class="flex overflow-x-auto space-x-4 p-4 bg-white shadow">
-    <button onclick="scrollToCategory('lanches')" class="flex-shrink-0 bg-red-500 text-white px-4 py-2 rounded-full">🍔 Lanches</button>
-    <button onclick="scrollToCategory('acompanhamentos')" class="flex-shrink-0 bg-gray-200 px-4 py-2 rounded-full">🍟 Acompanhamentos</button>
-    <button onclick="scrollToCategory('bebidas')" class="flex-shrink-0 bg-gray-200 px-4 py-2 rounded-full">🥤 Bebidas</button>
-    <button onclick="scrollToCategory('sobremesas')" class="flex-shrink-0 bg-gray-200 px-4 py-2 rounded-full">🍨 Sobremesas</button>
-  </section>
-
-  <script>
-    // Função para rolar categorias
-    function scrollToCategory(id) {
-      document.getElementById(id).scrollIntoView({behavior: "smooth"});
-    }
-
-    // Carrossel autoplay
-    const carousel = document.getElementById('carousel');
-    const items = document.querySelectorAll('.carousel-item');
-    let index = 0;
-
-    setInterval(() => {
-      index = (index + 1) % items.length;
-      carousel.scrollTo({
-        left: carousel.clientWidth * index,
-        behavior: 'smooth'
-      });
-    }, 5000);
-  </script>
+  <main>
+    <h2>Bem-vindo à Aldeia Burguer</h2>
+    <p>Hambúrguer artesanal direto para sua casa!</p>
+  </main>
+  <footer>
+    <p>&copy; 2025 Aldeia Burguer</p>
+  </footer>
 </body>
 </html>
