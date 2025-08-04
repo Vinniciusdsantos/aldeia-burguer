@@ -1,46 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - Admin</title>
-  <link href="style.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard Admin</title>
 </head>
 <body>
-  <header>
-    <h1>🍔 Painel Administrativo</h1>
-    <button onclick="logout()">Sair</button>
-  </header>
-
-  <main class="dashboard">
-    <div class="card">
-      <h2>128</h2>
-      <p>Pedidos Hoje</p>
-    </div>
-    <div class="card">
-      <h2>R$ 2.345</h2>
-      <p>Faturamento</p>
-    </div>
-    <div class="card">
-      <h2>45</h2>
-      <p>Clientes Fidelizados</p>
-    </div>
-  </main>
-
-  <nav class="nav-admin">
-    <a href="pedidos.html">Gerenciar Pedidos</a>
-    <a href="produtos.html">Gerenciar Produtos</a>
-    <a href="clientes.html">Clientes</a>
-  </nav>
-
-  <script>
-    if(!localStorage.getItem("admin")){
-      window.location.href = "login.html";
-    }
-    function logout(){
-      localStorage.removeItem("admin");
-      window.location.href = "login.html";
-    }
-  </script>
+  <h1>Painel do Administrador</h1>
+  <p>Gerenciar produtos e pedidos aqui.</p>
 </body>
 </html>
