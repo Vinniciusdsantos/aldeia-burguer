@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin – Aldeia Burguer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fdfdfd;
+      padding: 20px;
+    }
+    h1 {
+      color: #d32f2f;
+    }
+    .pedido {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      padding: 10px;
+      background: #fff;
+    }
+    .total {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-top: 20px;
+    }
+    .voltar {
+      margin-top: 30px;
+    }
+    .voltar a {
+      background: #d32f2f;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 30px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔒 Área Administrativa</h1>
+  <div id="lista"></div>
+  <div class="total">Total do dia: R$ <span id="total">0.00</span></div>
+  <div class="voltar"><a href="index.html">⬅ Voltar</a></div>
+
+  <script>
+    const lista = document.getElementById("lista");
+    const totalSpan = document.getElementById("total");
+    let total = 0;
+
+    const pedidos = JSON.parse(localStorage.getItem("pedidos") || "[]");
+    pedidos.forEach(p => {
+      const div = document.createElement("div");
+      div.className = "pedido";
+      div.innerHTML = `
+        <strong>${p.nome}</strong><br>
+        Itens: ${p.itens.join(", ")}<br>
+        Valor: R$${p.valor.toFixed(2)}<br>
+        Hora: ${p.hora}
+      `;
+      lista.appendChild(div);
+      total += p.valor;
+    });
+
+    totalSpan.textContent = total.toFixed(2);
+  </script>
+</body>
+</html>

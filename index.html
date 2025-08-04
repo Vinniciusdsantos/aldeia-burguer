@@ -1,16 +1,16 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Aldeia Burguer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #fff8f0;
+      background: #fff8f0;
+      padding: 20px;
+      margin: 0;
     }
     header {
       background-color: #d32f2f;
@@ -18,45 +18,11 @@
       padding: 1em;
       text-align: center;
     }
-    .g_id_signin { text-align: center; margin-top: 20px; }
-    #cardapio {
-      display: none;
-      padding: 20px;
-      max-width: 800px;
-      margin: auto;
+    .item, .floating-buttons, .admin-link {
+      margin-top: 20px;
+      text-align: center;
     }
-    .item {
-      display: flex;
-      align-items: center;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      margin-bottom: 15px;
-      background: white;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-      padding: 10px;
-    }
-    .item img {
-      width: 80px;
-      height: 80px;
-      border-radius: 8px;
-      margin-right: 15px;
-      object-fit: cover;
-    }
-    .item label {
-      flex: 1;
-      font-size: 1.1em;
-      cursor: pointer;
-    }
-    .floating-buttons {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 10;
-    }
-    .floating-buttons button {
+    .floating-buttons button, .admin-link a {
       background-color: #d32f2f;
       color: white;
       border: none;
@@ -65,32 +31,8 @@
       font-size: 1em;
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-    #carrinho-modal {
-      display: none;
-      position: fixed;
-      top: 10%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-      padding: 20px;
-      max-width: 400px;
-      z-index: 100;
-    }
-    #carrinho-modal h3 {
-      margin-top: 0;
-    }
-    #carrinho-itens {
-      margin-top: 10px;
-      text-align: left;
-    }
-    .fechar-modal {
-      text-align: right;
-      font-size: 0.9em;
-      cursor: pointer;
-      color: #d32f2f;
+      text-decoration: none;
+      display: inline-block;
     }
   </style>
 </head>
@@ -98,100 +40,37 @@
   <header>
     <h1>🍔 Aldeia Burguer</h1>
   </header>
-
-  <div id="g_id_onload"
-       data-client_id="769476582806-22cl684hussrtbi7kp3tbic2rcpo7eqc.apps.googleusercontent.com"
-       data-callback="handleCredentialResponse">
+  <div class="item">
+    <p>Olá, <span id="username">visitante</span>!</p>
+    <p>Seu pedido foi realizado com sucesso.</p>
   </div>
-  <div class="g_id_signin" data-type="standard"></div>
-
-  <div id="cardapio">
-    <h2>Olá, <span id="username"></span>! Escolha seus lanches:</h2>
-
-    <div class="item">
-      <img src="https://images.unsplash.com/photo-1606756791881-b2412ae0b87b?auto=format&fit=crop&w=100&q=80" alt="Combo">
-      <label><input type="checkbox" value="Combo Batata + Guaravita|12" onchange="atualizarCarrinho()"> 🍟 Combo Batata + Guaravita – R$12</label>
-    </div>
-
-    <div class="item">
-      <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=100&q=80" alt="Cheeseburguer">
-      <label><input type="checkbox" value="Cheese Burguer|14" onchange="atualizarCarrinho()"> 🍔 Cheese Burguer – R$14</label>
-    </div>
-
-    <div class="item">
-      <img src="https://images.unsplash.com/photo-1595292935949-e2b3b16eede1?auto=format&fit=crop&w=100&q=80" alt="Bacon">
-      <label><input type="checkbox" value="Bacon Burguer|16" onchange="atualizarCarrinho()"> 🥓 Bacon Burguer – R$16</label>
-    </div>
-
-    <div class="item">
-      <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=100&q=80" alt="Duplo queijo">
-      <label><input type="checkbox" value="Duplo Queijo Burguer|20" onchange="atualizarCarrinho()"> 🧀 Duplo Queijo Burguer – R$20</label>
-    </div>
+  <div class="floating-buttons">
+    <button onclick="salvarPedido()">✅ Simular Pedido</button>
   </div>
-
-  <div class="floating-buttons" style="display:none;" id="buttons">
-    <button onclick="abrirCarrinho()">🛒 Ver Carrinho</button>
-    <button onclick="finalizarPedido()">✅ Finalizar Pedido</button>
-  </div>
-
-  <div id="carrinho-modal">
-    <div class="fechar-modal" onclick="document.getElementById('carrinho-modal').style.display='none'">✖ Fechar</div>
-    <h3>Seu Carrinho:</h3>
-    <div id="carrinho-itens"></div>
-    <p><strong>Total:</strong> R$ <span id="total">0</span></p>
+  <div class="admin-link">
+    <a href="admin.html">🔒 Área Administrativa</a>
   </div>
 
   <script>
-    function handleCredentialResponse(response) {
-      const data = parseJwt(response.credential);
-      const name = data.given_name || data.name;
-      document.getElementById('username').textContent = name;
-      localStorage.setItem("username", name);
-      document.querySelector(".g_id_signin").style.display = "none";
-      document.getElementById("cardapio").style.display = "block";
-      document.getElementById("buttons").style.display = "flex";
+    function salvarPedido() {
+      const pedidos = JSON.parse(localStorage.getItem("pedidos") || "[]");
+      const nome = localStorage.getItem("username") || "Cliente Anônimo";
+      const novoPedido = {
+        nome: nome,
+        itens: ["Cheese Burguer", "Batata", "Guaravita"],
+        valor: 18,
+        hora: new Date().toLocaleString()
+      };
+      pedidos.push(novoPedido);
+      localStorage.setItem("pedidos", JSON.stringify(pedidos));
+      alert("Pedido salvo!");
     }
-    function parseJwt(token) {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(atob(base64).split('').map(c =>
-        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
-      return JSON.parse(jsonPayload);
-    }
+
     window.onload = () => {
       const user = localStorage.getItem("username");
       if (user) {
         document.getElementById("username").textContent = user;
-        document.querySelector(".g_id_signin").style.display = "none";
-        document.getElementById("cardapio").style.display = "block";
-        document.getElementById("buttons").style.display = "flex";
       }
-    }
-
-    function atualizarCarrinho() {
-      const itens = document.querySelectorAll('input[type="checkbox"]:checked');
-      const lista = document.getElementById("carrinho-itens");
-      const totalSpan = document.getElementById("total");
-      lista.innerHTML = "";
-      let total = 0;
-      itens.forEach(i => {
-        const [nome, preco] = i.value.split("|");
-        total += parseFloat(preco);
-        lista.innerHTML += `<div>• ${nome} – R$${preco}</div>`;
-      });
-      totalSpan.textContent = total.toFixed(2);
-    }
-
-    function abrirCarrinho() {
-      atualizarCarrinho();
-      document.getElementById("carrinho-modal").style.display = "block";
-    }
-
-    function finalizarPedido() {
-      alert("Pedido finalizado com sucesso!");
-      document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
-      atualizarCarrinho();
-      document.getElementById("carrinho-modal").style.display = "none";
     }
   </script>
 </body>
