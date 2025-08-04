@@ -2,35 +2,111 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Aldeia Burguer</title>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     body {
-      font-family: sans-serif;
-      text-align: center;
+      margin: 0;
+      font-family: Arial, sans-serif;
       background-color: #fff8f0;
-      padding: 50px;
     }
-    #cardapio { display: none; }
-    .btn-item { margin: 10px; padding: 10px 20px; background-color: #ff4500; color: white; border: none; border-radius: 8px; cursor: pointer; }
+    header {
+      background-color: #d32f2f;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    .g_id_signin { text-align: center; margin-top: 20px; }
+    #cardapio {
+      display: none;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    .item {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      background: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      padding: 10px;
+    }
+    .item img {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      margin-right: 15px;
+      object-fit: cover;
+    }
+    .item label {
+      flex: 1;
+      font-size: 1.1em;
+      cursor: pointer;
+    }
+    .floating-buttons {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .floating-buttons button {
+      background-color: #d32f2f;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 12px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
   </style>
 </head>
 <body>
-  <h1>🍔 Bem-vindo ao Aldeia Burguer</h1>
+  <header>
+    <h1>🍔 Aldeia Burguer</h1>
+  </header>
+
   <div id="g_id_onload"
        data-client_id="769476582806-22cl684hussrtbi7kp3tbic2rcpo7eqc.apps.googleusercontent.com"
        data-callback="handleCredentialResponse">
   </div>
   <div class="g_id_signin" data-type="standard"></div>
+
   <div id="cardapio">
-    <h2>Olá, <span id="username"></span>! Escolha seu lanche:</h2>
-    <button class="btn-item">🍟 Combo Batata + Guaravita - R$12</button>
-    <button class="btn-item">🍔 Cheese Burguer - R$14</button>
-    <button class="btn-item">🥓 Bacon Burguer - R$16</button>
-    <button class="btn-item">🧀 Duplo Queijo Burguer - R$20</button>
+    <h2>Olá, <span id="username"></span>! Escolha seus lanches:</h2>
+
+    <div class="item">
+      <img src="https://images.unsplash.com/photo-1606756791881-b2412ae0b87b?auto=format&fit=crop&w=100&q=80" alt="Combo">
+      <label><input type="checkbox" /> 🍟 Combo Batata + Guaravita – R$12</label>
+    </div>
+
+    <div class="item">
+      <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=100&q=80" alt="Cheeseburguer">
+      <label><input type="checkbox" /> 🍔 Cheese Burguer – R$14</label>
+    </div>
+
+    <div class="item">
+      <img src="https://images.unsplash.com/photo-1595292935949-e2b3b16eede1?auto=format&fit=crop&w=100&q=80" alt="Bacon">
+      <label><input type="checkbox" /> 🥓 Bacon Burguer – R$16</label>
+    </div>
+
+    <div class="item">
+      <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=100&q=80" alt="Duplo queijo">
+      <label><input type="checkbox" /> 🧀 Duplo Queijo Burguer – R$20</label>
+    </div>
   </div>
+
+  <div class="floating-buttons" style="display:none;" id="buttons">
+    <button onclick="alert('Ver Carrinho')">🛒 Ver Carrinho</button>
+    <button onclick="alert('Pedido Finalizado!')">✅ Finalizar Pedido</button>
+  </div>
+
   <script>
     function handleCredentialResponse(response) {
       const data = parseJwt(response.credential);
@@ -39,6 +115,7 @@
       localStorage.setItem("username", name);
       document.querySelector(".g_id_signin").style.display = "none";
       document.getElementById("cardapio").style.display = "block";
+      document.getElementById("buttons").style.display = "flex";
     }
     function parseJwt(token) {
       const base64Url = token.split('.')[1];
@@ -53,6 +130,7 @@
         document.getElementById("username").textContent = user;
         document.querySelector(".g_id_signin").style.display = "none";
         document.getElementById("cardapio").style.display = "block";
+        document.getElementById("buttons").style.display = "flex";
       }
     }
   </script>
