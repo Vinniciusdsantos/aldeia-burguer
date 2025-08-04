@@ -1,1 +1,0 @@
-console.log("Site da Aldeia Burguer carregado.");
