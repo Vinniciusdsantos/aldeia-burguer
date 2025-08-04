@@ -1,96 +1,207 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <title>Admin – Aldeia Burguer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aldeia Burguer - Cardápio</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #fefefe; padding: 1em; }
-    header { background: #d32f2f; color: white; padding: 1em; text-align: center; }
-    .pedido {
-      border: 1px solid #ddd; border-radius: 12px;
-      margin: 10px 0; padding: 10px; background: white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    body {
+      margin: 0; font-family: Arial, sans-serif;
+      background: #fff8f0; color: #333;
     }
-    .grátis { color: green; font-weight: bold; }
-    .total { font-weight: bold; font-size: 1.2em; margin-top: 20px; text-align: center; }
-    .voltar, .filtros {
-      text-align: center; margin-top: 20px;
+    header {
+      background: #d32f2f; color: white;
+      padding: 20px; text-align: center;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
     }
-    .voltar a {
-      background: #d32f2f; color: white; padding: 10px 16px;
-      border-radius: 20px; text-decoration: none;
+    header h1 { margin: 0; font-size: 1.8em; }
+    header p { margin: 5px 0 0; font-size: 1em; }
+
+    .categorias {
+      display: flex; justify-content: center; flex-wrap: wrap;
+      padding: 10px; background: #fff; position: sticky; top: 0; z-index: 100;
     }
-    input[type="text"] {
-      padding: 6px 10px; border-radius: 6px; border: 1px solid #ccc; width: 200px;
+    .categorias button {
+      background: #f5f5f5; border: none;
+      margin: 5px; padding: 8px 16px;
+      border-radius: 20px; cursor: pointer;
+      transition: background 0.3s;
     }
-    button {
+    .categorias button:hover { background: #ffd5d5; }
+
+    .cardapio {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      padding: 20px;
+    }
+    .item {
+      width: 220px; margin: 10px; padding: 15px;
+      background: #fff; border-radius: 15px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      text-align: center; transition: transform 0.2s;
+    }
+    .item:hover { transform: scale(1.03); }
+    .item img { width: 160px; height: 160px; border-radius: 15px; object-fit: cover; }
+    .item h3 { margin: 10px 0 5px; font-size: 1.2em; }
+    .item p { font-size: 0.9em; color: #555; }
+
+    .item button {
       background: #d32f2f; color: white; border: none;
-      padding: 8px 16px; border-radius: 20px; margin-left: 10px;
-      cursor: pointer;
+      padding: 8px 16px; border-radius: 20px; cursor: pointer;
+      margin-top: 8px; transition: background 0.3s;
     }
+    .item button:hover { background: #b71c1c; }
+
+    .carrinho {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: white; border-top: 3px solid #d32f2f;
+      padding: 15px; box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    .carrinho input {
+      width: 90%; padding: 8px; margin: 8px 0;
+      border-radius: 10px; border: 1px solid #ccc;
+    }
+    .resumo {
+      max-height: 100px; overflow-y: auto;
+      margin-bottom: 10px; font-size: 0.9em; text-align: left;
+    }
+    .resumo button { margin-left: 5px; }
+
+    .btn-historico, .btn-admin {
+      display: inline-block; margin: 20px auto;
+      background: #d32f2f; color: white; padding: 12px 20px;
+      border-radius: 20px; text-decoration: none;
+      transition: background 0.3s;
+    }
+    .btn-historico:hover, .btn-admin:hover { background: #b71c1c; }
   </style>
 </head>
 <body>
   <header>
-    <h1>🔒 Área Administrativa</h1>
+    <h1>🍔 Aldeia Burguer</h1>
+    <p>O sabor da sua aldeia direto na sua casa</p>
   </header>
 
-  <div class="filtros">
-    <input type="text" id="filtro" placeholder="Filtrar por cliente" oninput="filtrarPedidos()" />
-    <button onclick="exportarCSV()">Exportar CSV</button>
+  <div class="categorias">
+    <button onclick="filtrarCategoria('todos')">Todos</button>
+    <button onclick="filtrarCategoria('burguer')">Burguers</button>
+    <button onclick="filtrarCategoria('combo')">Combos</button>
+    <button onclick="filtrarCategoria('bebida')">Bebidas</button>
   </div>
 
-  <div id="lista"></div>
-  <div class="total">Total do dia: R$ <span id="total">0.00</span></div>
-  <div class="voltar"><a href="index.html">⬅ Voltar</a></div>
+  <div class="cardapio" id="cardapio"></div>
+
+  <div class="carrinho">
+    <div class="resumo" id="resumo"></div>
+    <input type="text" id="observacao" placeholder="Observações do pedido">
+    <br>
+    <strong>Total: R$ <span id="total">0.00</span></strong>
+    <br><br>
+    <button onclick="confirmarPedido()">Finalizar Pedido</button>
+  </div>
+
+  <div style="text-align:center">
+    <button class="btn-historico" onclick="verHistorico()">📜 Meus Pedidos</button>
+    <a class="btn-admin" href="admin.html">🔒 Área Administrativa</a>
+  </div>
 
   <script>
-    let todosPedidos = JSON.parse(localStorage.getItem("pedidos") || "[]").reverse();
+    const cardapio = [
+      { nome: "Cheese Burguer", preco: 12, categoria: "burguer", desc: "Pão, carne e queijo", img: "https://i.imgur.com/xk0hZyN.png" },
+      { nome: "Duplo Bacon", preco: 16, categoria: "burguer", desc: "Duplo hambúrguer, bacon e queijo", img: "https://i.imgur.com/MiYe8OL.png" },
+      { nome: "Combo Batata + Guaravita", preco: 18, categoria: "combo", desc: "Hambúrguer simples, batata e Guaravita", img: "https://i.imgur.com/1JQ9h7w.png" },
+      { nome: "Guaraná 2L", preco: 8, categoria: "bebida", desc: "Refrigerante de 2 litros bem gelado", img: "https://i.imgur.com/Fp7uSbm.png" }
+    ];
 
-    function renderPedidos(listaPedidos) {
-      const lista = document.getElementById("lista");
-      lista.innerHTML = "";
-      let total = 0;
+    const carrinho = [];
 
-      listaPedidos.forEach(p => {
-        const div = document.createElement("div");
-        div.className = "pedido";
-        const status = p.valor === 0 ? '<span class="grátis">GRÁTIS (Fidelidade)</span>' : '';
-        div.innerHTML = `
-          <strong>${p.nome}</strong><br>
-          Itens: ${p.itens.join(", ")}<br>
-          Valor: R$${p.valor.toFixed(2)} ${status}<br>
-          Hora: ${p.hora}
-        `;
-        lista.appendChild(div);
-        total += p.valor;
-      });
+    function filtrarCategoria(cat) {
+      const lista = cat === "todos" ? cardapio : cardapio.filter(i => i.categoria === cat);
+      renderCardapio(lista);
+    }
 
+    function adicionar(nome) {
+      const item = cardapio.find(i => i.nome === nome);
+      carrinho.push(item);
+      atualizarCarrinho();
+    }
+
+    function remover(index) {
+      carrinho.splice(index, 1);
+      atualizarCarrinho();
+    }
+
+    function atualizarCarrinho() {
+      const resumo = document.getElementById("resumo");
+      resumo.innerHTML = carrinho.map((item, idx) =>
+        `${item.nome} - R$${item.preco.toFixed(2)} <button onclick="remover(${idx})">❌</button>`
+      ).join("<br>");
+      const total = carrinho.reduce((acc, item) => acc + item.preco, 0);
       document.getElementById("total").textContent = total.toFixed(2);
     }
 
-    function filtrarPedidos() {
-      const termo = document.getElementById("filtro").value.toLowerCase();
-      const filtrados = todosPedidos.filter(p => p.nome.toLowerCase().includes(termo));
-      renderPedidos(filtrados);
-    }
+    function confirmarPedido() {
+      if (carrinho.length === 0) return alert("Carrinho vazio!");
 
-    function exportarCSV() {
-      const linhas = ["Nome,Itens,Valor,Hora"];
-      todosPedidos.forEach(p => {
-        linhas.push(`"${p.nome}","${p.itens.join(" / ")}",${p.valor},"${p.hora}"`);
+      const confirmacao = confirm("Deseja realmente finalizar o pedido?");
+      if (!confirmacao) return;
+
+      const nome = localStorage.getItem("username") || "Cliente Anônimo";
+      const pedidos = JSON.parse(localStorage.getItem("pedidos") || "[]");
+      const pedidosDoCliente = pedidos.filter(p => p.nome === nome);
+      const contador = pedidosDoCliente.length + 1;
+
+      let valor = carrinho.reduce((acc, item) => acc + item.preco, 0);
+      const obs = document.getElementById("observacao").value;
+
+      if (contador % 6 === 0) {
+        valor = 0;
+        alert("🎉 Parabéns! Esse pedido saiu de graça (Fidelidade).");
+      }
+
+      pedidos.push({
+        nome: nome,
+        itens: carrinho.map(i => i.nome),
+        observacao: obs,
+        valor: valor,
+        hora: new Date().toLocaleString()
       });
-      const csv = linhas.join("\\n");
-      const blob = new Blob([csv], { type: "text/csv" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "pedidos.csv";
-      link.click();
+
+      localStorage.setItem("pedidos", JSON.stringify(pedidos));
+      carrinho.length = 0;
+      atualizarCarrinho();
+      alert("Pedido realizado com sucesso!");
     }
 
-    renderPedidos(todosPedidos);
+    function verHistorico() {
+      const nome = localStorage.getItem("username") || "Cliente Anônimo";
+      const pedidos = JSON.parse(localStorage.getItem("pedidos") || "[]");
+      const historico = pedidos.filter(p => p.nome === nome);
+      const texto = historico.map(p => `🕒 ${p.hora} - ${p.itens.join(", ")} - R$${p.valor}`).join("\\n");
+      alert(texto || "Nenhum pedido encontrado.");
+    }
+
+    window.onload = () => {
+      renderCardapio(cardapio);
+      atualizarCarrinho();
+    };
+
+    function renderCardapio(lista) {
+      const container = document.getElementById("cardapio");
+      container.innerHTML = "";
+      lista.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
+          <img src="${item.img}" alt="${item.nome}">
+          <h3>${item.nome}</h3>
+          <p>${item.desc}</p>
+          <p><strong>R$ ${item.preco.toFixed(2)}</strong></p>
+          <button onclick="adicionar('${item.nome}')">Adicionar</button>
+        `;
+        container.appendChild(div);
+      });
+    }
   </script>
 </body>
 </html>
