@@ -11,7 +11,7 @@ Este é o site oficial da hamburgueria **Aldeia Burguer**, desenvolvido para ofe
 
 ## Como acessar
 
-Acesse o site pelo GitHub Pages:
+Acesse o site pelo GitHub Pages:  
 👉 https://vinniciusdsantos.github.io/aldeia-burguer/
 
 ## Tecnologias utilizadas

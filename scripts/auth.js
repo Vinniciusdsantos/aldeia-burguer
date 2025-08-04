@@ -1,0 +1,1 @@
+function loginComGoogle() { alert('Login Google simulado'); }
