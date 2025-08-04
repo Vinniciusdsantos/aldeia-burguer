@@ -5,40 +5,28 @@
   <title>Admin – Aldeia Burguer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #fdfdfd;
-      padding: 20px;
-    }
-    h1 {
-      color: #d32f2f;
-    }
+    body { font-family: Arial, sans-serif; margin: 0; background: #fefefe; padding: 1em; }
+    header { background: #d32f2f; color: white; padding: 1em; text-align: center; }
     .pedido {
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      padding: 10px;
-      background: #fff;
+      border: 1px solid #ddd; border-radius: 12px;
+      margin: 10px 0; padding: 10px; background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
-    .total {
-      font-weight: bold;
-      font-size: 1.2em;
-      margin-top: 20px;
-    }
+    .grátis { color: green; font-weight: bold; }
+    .total { font-weight: bold; font-size: 1.2em; margin-top: 20px; text-align: center; }
     .voltar {
-      margin-top: 30px;
+      text-align: center; margin-top: 30px;
     }
     .voltar a {
-      background: #d32f2f;
-      color: white;
-      padding: 10px 16px;
-      border-radius: 30px;
-      text-decoration: none;
+      background: #d32f2f; color: white; padding: 10px 16px;
+      border-radius: 20px; text-decoration: none;
     }
   </style>
 </head>
 <body>
-  <h1>🔒 Área Administrativa</h1>
+  <header>
+    <h1>🔒 Área Administrativa</h1>
+  </header>
   <div id="lista"></div>
   <div class="total">Total do dia: R$ <span id="total">0.00</span></div>
   <div class="voltar"><a href="index.html">⬅ Voltar</a></div>
@@ -49,13 +37,14 @@
     let total = 0;
 
     const pedidos = JSON.parse(localStorage.getItem("pedidos") || "[]");
-    pedidos.forEach(p => {
+    pedidos.reverse().forEach(p => {
       const div = document.createElement("div");
       div.className = "pedido";
+      const status = p.valor === 0 ? '<span class="grátis">GRÁTIS (Fidelidade)</span>' : '';
       div.innerHTML = `
         <strong>${p.nome}</strong><br>
         Itens: ${p.itens.join(", ")}<br>
-        Valor: R$${p.valor.toFixed(2)}<br>
+        Valor: R$${p.valor.toFixed(2)} ${status}<br>
         Hora: ${p.hora}
       `;
       lista.appendChild(div);
