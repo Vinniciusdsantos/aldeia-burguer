@@ -1,17 +1,19 @@
-<!DOCTYPE html>
-<html lang='pt-BR'>
-<head>
-  <meta charset='UTF-8'>
-  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-  <title>Aldeia Burguer</title>
-  <link rel='stylesheet' href='styles/style.css'>
-</head>
 <body>
-  <header><h1>Aldeia Burguer</h1></header>
+  <header>
+    <h1>🍔 Aldeia Burguer</h1>
+  </header>
+
   <main>
-    <section id='cardapio' class='cardapio'></section>
-    <aside id='carrinho' class='carrinho'></aside>
+    <section>
+      <h2>Nosso Cardápio</h2>
+      <div id="listaProdutos"></div>
+    </section>
+
+    <section>
+      <h2>🛒 Seu Carrinho</h2>
+      <div id="carrinho"></div>
+      <p>Total: <span id="total">R$ 0,00</span></p>
+      <button onclick="finalizarPedido()">Finalizar Pedido</button>
+    </section>
   </main>
-  <script src='scripts/app.js'></script>
 </body>
-</html>
