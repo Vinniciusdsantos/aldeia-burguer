@@ -8,8 +8,27 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>🍔 Aldeia Burguer</h1>
-  <div id="produtos" class="produtos-container"></div>
+  <header>
+    <h1>🍔 Aldeia Burguer</h1>
+  </header>
+  <main>
+    <div id="produtos" class="produtos-container"></div>
+    <div id="carrinho" class="carrinho">
+      <h2>🛒 Carrinho</h2>
+      <ul id="lista-carrinho"></ul>
+      <p id="total">Total: R$ 0.00</p>
+      <button id="finalizar-btn">Finalizar Pedido</button>
+    </div>
+  </main>
+
+  <!-- Modal para número de WhatsApp -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h3>Informe seu número de WhatsApp</h3>
+      <input type="text" id="numero" placeholder="(21) 91234-5678" />
+      <button id="enviar-pedido">Enviar Pedido</button>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
