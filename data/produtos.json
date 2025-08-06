@@ -1,0 +1,32 @@
+[
+  {
+    "nome": "Aldeia Supreme",
+    "descricao": "3 carnes artesanais, cheddar duplo, bacon, alface, tomate e molho especial",
+    "preco": 34.9,
+    "imagem": "Screenshot_2-removebg-preview.png"
+  },
+  {
+    "nome": "Aldeia Duplo Smash",
+    "descricao": "Dois burgers smash, cheddar cremoso e maionese da casa no pão australiano",
+    "preco": 29.9,
+    "imagem": "Screenshot_8-removebg-preview.png"
+  },
+  {
+    "nome": "Aldeia Clássico",
+    "descricao": "Burger duplo, cheddar, alface, tomate e pão com gergelim",
+    "preco": 26.9,
+    "imagem": "Screenshot_7-removebg-preview.png"
+  },
+  {
+    "nome": "Aldeia Chicken Bacon",
+    "descricao": "Frango empanado, queijo, bacon e maionese especial",
+    "preco": 27.9,
+    "imagem": "Screenshot_5-removebg-preview.png"
+  },
+  {
+    "nome": "Aldeia Simples",
+    "descricao": "Burger artesanal, cheddar, tomate, alface e picles",
+    "preco": 22.9,
+    "imagem": "Screenshot_4-removebg-preview.png"
+  }
+]
